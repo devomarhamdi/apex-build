@@ -8,8 +8,8 @@ export class ItemDescription {
   @Prop({ required: true })
   code: string;
 
-  @Prop({ required: true })
-  Weight: string;
+  @Prop()
+  Weight: number;
 }
 
 export const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);

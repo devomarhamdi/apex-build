@@ -19,16 +19,19 @@ export class ItemDescriptionController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.itemDescriptionService.findOne(+id);
+    return this.itemDescriptionService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateItemDescriptionDto: UpdateItemDescriptionDto) {
-    return this.itemDescriptionService.update(+id, updateItemDescriptionDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateItemDescriptionDto: UpdateItemDescriptionDto,
+  ) {
+    return this.itemDescriptionService.update(id, updateItemDescriptionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.itemDescriptionService.remove(+id);
+    return this.itemDescriptionService.remove(id);
   }
 }

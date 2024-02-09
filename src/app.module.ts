@@ -5,7 +5,9 @@ import { ItemDescriptionModule } from './item-description/item-description.modul
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.DB_URL),
+    MongooseModule.forRoot(
+      'mongodb+srv://root:AytzbgatCSMEq2lJ@brainwave-cluster.vwkgglh.mongodb.net/apex-build',
+    ),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

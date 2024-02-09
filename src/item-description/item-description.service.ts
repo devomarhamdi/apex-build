@@ -11,23 +11,25 @@ export class ItemDescriptionService {
     @InjectModel(ItemDescription.name) private itemModel: Model<ItemDescription>,
   ) {}
 
-  create(createItemDescriptionDto: CreateItemDescriptionDto) {
-    return 'This action adds a new itemDescription';
+  async create(createItemDescriptionDto: CreateItemDescriptionDto) {
+    return await this.itemModel.create(createItemDescriptionDto);
   }
 
-  findAll() {
-    return `This action returns all itemDescription`;
+  async findAll() {
+    return await this.itemModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} itemDescription`;
+  async findOne(id: string) {
+    return await this.itemModel.findById(id);
   }
 
-  update(id: number, updateItemDescriptionDto: UpdateItemDescriptionDto) {
-    return `This action updates a #${id} itemDescription`;
+  async update(id: string, updateItemDescriptionDto: UpdateItemDescriptionDto) {
+    return await this.itemModel.findByIdAndUpdate(id, updateItemDescriptionDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} itemDescription`;
+  async remove(id: string) {
+    return await this.itemModel.findByIdAndDelete(id);
   }
 }
