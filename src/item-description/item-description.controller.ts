@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ItemDescriptionService } from './item-description.service';
 import { CreateItemDescriptionDto } from './dto/create-item-description.dto';
 import { UpdateItemDescriptionDto } from './dto/update-item-description.dto';
+import { MongoIdPipe } from 'src/pipes/mongo-id.pipe';
 
 @Controller('item-description')
 export class ItemDescriptionController {
@@ -18,20 +19,20 @@ export class ItemDescriptionController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', MongoIdPipe) id: string) {
     return this.itemDescriptionService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', MongoIdPipe) id: string,
     @Body() updateItemDescriptionDto: UpdateItemDescriptionDto,
   ) {
     return this.itemDescriptionService.update(id, updateItemDescriptionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', MongoIdPipe) id: string) {
     return this.itemDescriptionService.remove(id);
   }
 }
