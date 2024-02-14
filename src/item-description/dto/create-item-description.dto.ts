@@ -7,12 +7,12 @@ export class CreateItemDescriptionDto {
   @IsNotEmpty({ message: "Code shouldn't be empty" })
   code: string;
 
-  @IsDecimal()
+  @IsDecimal({}, { message: 'Weight is not a valid decimal number' })
   Weight: number;
 
-  @IsDecimal()
+  @IsDecimal({}, { message: 'Selling price is not a valid decimal number' })
   sellingPrice: number;
 
-  @IsDecimal()
+  @IsDecimal({}, { message: 'Purchasing price is not a valid decimal number' })
   purchasingPrice: number;
 }

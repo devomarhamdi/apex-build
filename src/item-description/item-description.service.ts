@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemDescriptionDto } from './dto/create-item-description.dto';
 import { UpdateItemDescriptionDto } from './dto/update-item-description.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { ItemDescription } from './schemas/item-description.schema';
+import { ItemDescription } from './schema/item-description.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class ItemDescriptionService {
   async findAll() {
     const items = await this.itemModel.find();
 
-    if (!items) {
-      throw new NotFoundException('No items found');
+    if (items.length === 0) {
+      return { message: 'There is no items found' };
     }
 
     const response = {

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ItemDescriptionModule } from './item-description/item-description.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ItemDescriptionModule } from './item-description/item-description.modul
       isGlobal: true,
     }),
     ItemDescriptionModule,
+    ProjectsModule,
   ],
   controllers: [],
   providers: [],
