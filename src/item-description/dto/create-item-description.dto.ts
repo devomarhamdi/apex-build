@@ -1,18 +1,18 @@
 import { IsDecimal, IsNotEmpty } from 'class-validator';
 
 export class CreateItemDescriptionDto {
-  @IsNotEmpty({ message: "Item description shouldn't be empty" })
+  @IsNotEmpty()
   itemDescription: string;
 
-  @IsNotEmpty({ message: "Code shouldn't be empty" })
+  @IsNotEmpty()
   code: string;
 
-  @IsDecimal({}, { message: 'Weight is not a valid decimal number' })
+  @IsDecimal()
   Weight: number;
 
-  @IsDecimal({}, { message: 'Selling price is not a valid decimal number' })
+  @IsDecimal()
   sellingPrice: number;
 
-  @IsDecimal({}, { message: 'Purchasing price is not a valid decimal number' })
+  @IsDecimal()
   purchasingPrice: number;
 }
