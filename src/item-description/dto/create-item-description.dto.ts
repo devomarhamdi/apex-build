@@ -9,4 +9,10 @@ export class CreateItemDescriptionDto {
 
   @IsDecimal()
   Weight: number;
+
+  @IsDecimal()
+  sellingPrice: number;
+
+  @IsDecimal()
+  purchasingPrice: number;
 }

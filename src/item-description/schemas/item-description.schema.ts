@@ -10,6 +10,12 @@ export class ItemDescription {
 
   @Prop()
   Weight: number;
+
+  @Prop()
+  sellingPrice: number;
+
+  @Prop()
+  purchasingPrice: number;
 }
 
 export const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);

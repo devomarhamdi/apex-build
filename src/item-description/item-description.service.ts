@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemDescriptionDto } from './dto/create-item-description.dto';
 import { UpdateItemDescriptionDto } from './dto/update-item-description.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,20 +16,47 @@ export class ItemDescriptionService {
   }
 
   async findAll() {
-    return await this.itemModel.find();
+    const items = await this.itemModel.find();
+
+    if (!items) {
+      throw new NotFoundException('No items found');
+    }
+
+    const response = {
+      results: items.length,
+      data: items,
+    };
+    return response;
   }
 
   async findOne(id: string) {
-    return await this.itemModel.findById(id);
+    const item = await this.itemModel.findById(id);
+
+    if (!item) {
+      throw new NotFoundException('No item found');
+    }
+    return item;
   }
 
   async update(id: string, updateItemDescriptionDto: UpdateItemDescriptionDto) {
+    const item = await this.itemModel.findById(id);
+
+    if (!item) {
+      throw new NotFoundException('No item found');
+    }
+
     return await this.itemModel.findByIdAndUpdate(id, updateItemDescriptionDto, {
       new: true,
     });
   }
 
   async remove(id: string) {
+    const item = await this.itemModel.findById(id);
+
+    if (!item) {
+      throw new NotFoundException('No item found');
+    }
+
     return await this.itemModel.findByIdAndDelete(id);
   }
 }
