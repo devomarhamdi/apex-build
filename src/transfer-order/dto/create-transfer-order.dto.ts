@@ -3,6 +3,7 @@ import { Project } from 'src/projects/schema/project.schema';
 import { itemCondition } from '../schema/transfer-order.schema';
 import {
   IsDate,
+  IsEmpty,
   IsEnum,
   IsMongoId,
   IsNotEmpty,
@@ -16,6 +17,9 @@ export class CreateTransferOrderDto {
 
   @IsNotEmpty()
   quantity: number;
+
+  @IsEmpty()
+  transferId: string;
 
   @IsNotEmpty()
   @IsEnum(itemCondition)
