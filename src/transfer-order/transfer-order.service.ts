@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { TransferOrder } from './schema/transfer-order.schema';
+import { TransferOrder } from '../schemas/transfer-order.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -13,6 +13,13 @@ export class TransferOrderService {
   ) {}
 
   async create(createTransferOrderDto: CreateTransferOrderDto) {
+    //the transfer id can't be done bec the mongoid
+    const itemDescriptionInitial = createTransferOrderDto.itemDescription;
+    const itemConditionInitial = createTransferOrderDto.itemCondition.charAt(0);
+    const driverNameInitial = createTransferOrderDto.driverName.charAt(0);
+    const transferId = `${itemDescriptionInitial}-${itemConditionInitial}-${driverNameInitial}`;
+
+    createTransferOrderDto.transferId = transferId;
     return await this.transferModel.create(createTransferOrderDto);
   }
 

@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { TransferOrderService } from './transfer-order.service';
 import { TransferOrderController } from './transfer-order.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TransferOrder, TransferOrderSchema } from './schema/transfer-order.schema';
+import {
+  TransferOrder,
+  TransferOrderSchema,
+} from '../schemas/transfer-order.schema';
 
 @Module({
   imports: [

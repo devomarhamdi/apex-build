@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { ItemDescription } from 'src/item-description/schema/item-description.schema';
-import { Project } from 'src/projects/schema/project.schema';
+import { ItemDescription } from 'src/schemas/item-description.schema';
+import { Project } from 'src/schemas/project.schema';
 
 export enum itemCondition {
   good = 'good',
@@ -20,6 +20,9 @@ export class TransferOrder {
 
   @Prop({ required: true })
   quantity: number;
+
+  @Prop({ required: true })
+  transferId: string;
 
   @Prop({ enum: ['good', 'maintenance', 'waste'] })
   itemCondition: itemCondition;
