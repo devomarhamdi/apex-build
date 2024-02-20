@@ -2,13 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemDescriptionDto } from './dto/create-item-description.dto';
 import { UpdateItemDescriptionDto } from './dto/update-item-description.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { ItemDescription } from './schema/item-description.schema';
+import { ItemDescription } from '../schemas/item-description.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class ItemDescriptionService {
   constructor(
-    @InjectModel(ItemDescription.name) private itemModel: Model<ItemDescription>,
+    @InjectModel(ItemDescription.name)
+    private itemModel: Model<ItemDescription>,
   ) {}
 
   async create(createItemDescriptionDto: CreateItemDescriptionDto) {
@@ -45,9 +46,13 @@ export class ItemDescriptionService {
       throw new NotFoundException('No item found');
     }
 
-    return await this.itemModel.findByIdAndUpdate(id, updateItemDescriptionDto, {
-      new: true,
-    });
+    return await this.itemModel.findByIdAndUpdate(
+      id,
+      updateItemDescriptionDto,
+      {
+        new: true,
+      },
+    );
   }
 
   async remove(id: string) {

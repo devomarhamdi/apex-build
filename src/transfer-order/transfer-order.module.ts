@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   TransferOrder,
   TransferOrderSchema,
-} from './schema/transfer-order.schema';
+} from '../schemas/transfer-order.schema';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
-import { ItemDescription } from 'src/item-description/schema/item-description.schema';
-import { Project } from 'src/projects/schema/project.schema';
-import { itemCondition } from '../schema/transfer-order.schema';
+import { ItemDescription } from 'src/schemas/item-description.schema';
+import { Project } from 'src/schemas/project.schema';
+import { itemCondition } from '../../schemas/transfer-order.schema';
 import {
   IsDate,
   IsEmpty,
