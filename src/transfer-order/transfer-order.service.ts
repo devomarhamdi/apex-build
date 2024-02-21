@@ -4,19 +4,32 @@ import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { TransferOrder } from '../schemas/transfer-order.schema';
 import { Model } from 'mongoose';
+import { ItemDescriptionService } from 'src/item-description/item-description.service';
 
 @Injectable()
 export class TransferOrderService {
   constructor(
     @InjectModel(TransferOrder.name)
     private transferModel: Model<TransferOrder>,
+    private readonly itemDescriptionService: ItemDescriptionService,
   ) {}
 
   async create(createTransferOrderDto: CreateTransferOrderDto) {
-    //the transfer id can't be done bec the mongoid
-    const itemDescriptionInitial = createTransferOrderDto.itemDescription;
-    const itemConditionInitial = createTransferOrderDto.itemCondition.charAt(0);
-    const driverNameInitial = createTransferOrderDto.driverName.charAt(0);
+    //The performence will not be very effiecnt
+    const itemDescription = await this.itemDescriptionService.findOne(
+      createTransferOrderDto.itemDescription.toString(),
+    );
+
+    if (!itemDescription) {
+      throw new NotFoundException('Item not found');
+    }
+
+    const itemDescriptionInitial = itemDescription.itemDescription.slice(0, 2);
+    const itemConditionInitial = createTransferOrderDto.itemCondition.slice(
+      0,
+      2,
+    );
+    const driverNameInitial = createTransferOrderDto.driverName.slice(0, 2);
     const transferId = `${itemDescriptionInitial}-${itemConditionInitial}-${driverNameInitial}`;
 
     createTransferOrderDto.transferId = transferId;
