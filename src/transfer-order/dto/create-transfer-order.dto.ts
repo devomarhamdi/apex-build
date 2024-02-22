@@ -3,6 +3,7 @@ import { Project } from 'src/schemas/project.schema';
 import { itemCondition } from '../../schemas/transfer-order.schema';
 import {
   IsDate,
+  IsDateString,
   IsEmpty,
   IsEnum,
   IsMongoId,
@@ -25,7 +26,7 @@ export class CreateTransferOrderDto {
   @IsEnum(itemCondition)
   itemCondition: itemCondition;
 
-  @IsDate()
+  // @IsDate()
   @IsOptional()
   transferDate: Date;
 
