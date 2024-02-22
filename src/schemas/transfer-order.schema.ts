@@ -21,7 +21,7 @@ export class TransferOrder {
   @Prop({ required: true })
   quantity: number;
 
-  @Prop({ required: true })
+  @Prop()
   transferId: string;
 
   @Prop({ enum: ['good', 'maintenance', 'waste'] })

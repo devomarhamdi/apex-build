@@ -15,5 +15,6 @@ import {
   ],
   controllers: [ItemDescriptionController],
   providers: [ItemDescriptionService],
+  exports: [ItemDescriptionService],
 })
 export class ItemDescriptionModule {}
