@@ -7,6 +7,7 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
 } from 'class-validator';
 
@@ -39,4 +40,22 @@ export class CreateTransferOrderDto {
   @IsNotEmpty()
   @IsMongoId()
   toProject: Project;
+
+  @IsEmpty()
+  // @IsNumber()
+  good: number;
+
+  @IsEmpty()
+  // @IsNumber()
+  maintenance: number;
+
+  @IsEmpty()
+  // @IsNumber()
+  waste: number;
+
+  @IsEmpty()
+  totQTY: number;
+
+  @IsEmpty()
+  actQTY: number;
 }

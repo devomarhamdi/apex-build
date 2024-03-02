@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TransferOrder } from '../schemas/transfer-order.schema';
 import { Model } from 'mongoose';
 import { ItemDescriptionService } from 'src/item-description/item-description.service';
+import { BalanceService } from 'src/balance/balance.service';
 
 @Injectable()
 export class TransferOrderService {
@@ -12,6 +13,7 @@ export class TransferOrderService {
     @InjectModel(TransferOrder.name)
     private transferModel: Model<TransferOrder>,
     private readonly itemDescriptionService: ItemDescriptionService,
+    private readonly balanceService: BalanceService,
   ) {}
 
   async create(createTransferOrderDto: CreateTransferOrderDto) {
@@ -31,6 +33,18 @@ export class TransferOrderService {
     );
     const driverNameInitial = createTransferOrderDto.driverName.slice(0, 2);
     const transferId = `${itemDescriptionInitial}-${itemConditionInitial}-${driverNameInitial}`;
+
+    if (createTransferOrderDto.good > 0) {
+      createTransferOrderDto.actQTY = createTransferOrderDto.good;
+    }
+
+    if (createTransferOrderDto.good === 0) {
+      createTransferOrderDto.actQTY = 0;
+    }
+    createTransferOrderDto.totQTY =
+      createTransferOrderDto.good +
+      createTransferOrderDto.maintenance +
+      createTransferOrderDto.waste;
 
     createTransferOrderDto.transferId = transferId;
     return await this.transferModel.create(createTransferOrderDto);

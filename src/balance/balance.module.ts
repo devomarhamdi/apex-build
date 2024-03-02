@@ -10,5 +10,6 @@ import { Balance, BalanceSchema } from 'src/schemas/balance.schema';
   ],
   controllers: [BalanceController],
   providers: [BalanceService],
+  exports: [BalanceService]
 })
 export class BalanceModule {}
