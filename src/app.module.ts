@@ -5,6 +5,9 @@ import { ItemDescriptionModule } from './item-description/item-description.modul
 import { ProjectsModule } from './projects/projects.module';
 import { TransferOrderModule } from './transfer-order/transfer-order.module';
 import { BalanceModule } from './balance/balance.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -18,8 +21,10 @@ import { BalanceModule } from './balance/balance.module';
     ProjectsModule,
     TransferOrderModule,
     BalanceModule,
+    AuthModule,
+    UserModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
