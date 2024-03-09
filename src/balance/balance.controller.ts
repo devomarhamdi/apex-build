@@ -10,6 +10,7 @@ import {
 import { BalanceService } from './balance.service';
 import { CreateBalanceDto } from './dto/create-balance.dto';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
+import { MongoIdPipe } from 'src/pipes/mongo-id.pipe';
 
 @Controller('balance')
 export class BalanceController {
@@ -26,17 +27,20 @@ export class BalanceController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', MongoIdPipe) id: string) {
     return this.balanceService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBalanceDto: UpdateBalanceDto) {
+  update(
+    @Param('id', MongoIdPipe) id: string,
+    @Body() updateBalanceDto: UpdateBalanceDto,
+  ) {
     return this.balanceService.update(id, updateBalanceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', MongoIdPipe) id: string) {
     return this.balanceService.remove(id);
   }
 }

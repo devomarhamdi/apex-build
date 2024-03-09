@@ -29,16 +29,10 @@ export class BalanceService {
   }
 
   async findAll() {
-    const balance = await this.balanceModel
-      .find()
-      .populate({
-        path: 'itemDescription',
-        select: ['itemDescription', 'code', 'Weight', '-_id'],
-      })
-      .populate({
-        path: 'fromProject',
-        select: ['name', '-_id'],
-      });
+    const balance = await this.balanceModel.find().populate({
+      path: 'itemDescription',
+      select: ['itemDescription', 'code', 'Weight', '-_id'],
+    });
 
     if (!balance) {
       throw new NotFoundException('No balance found');
@@ -53,14 +47,19 @@ export class BalanceService {
   }
 
   async findOne(id: string) {
-    const balance = await this.balanceModel
-      .findById(id)
-      .populate({
-        path: 'itemDescription',
-      })
-      .populate({
-        path: 'fromProject',
-      });
+    const balance = await this.balanceModel.findById(id).populate({
+      path: 'itemDescription',
+    });
+
+    if (!balance) {
+      throw new NotFoundException('No balance found');
+    }
+
+    return balance;
+  }
+
+  async findItemBalance(id) {
+    const balance = await this.balanceModel.findOne({ itemDescription: id });
 
     if (!balance) {
       throw new NotFoundException('No balance found');

@@ -46,6 +46,13 @@ export class TransferOrder {
     required: true,
   })
   toProject: Project;
+
+  @Prop()
+  orderNo: number;
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);
+
+// TransferOrderSchema.pre('save', function(next){
+
+// })

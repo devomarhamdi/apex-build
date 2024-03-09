@@ -13,6 +13,18 @@ export class ItemDescriptionService {
   ) {}
 
   async create(createItemDescriptionDto: CreateItemDescriptionDto) {
+    if (createItemDescriptionDto.good > 0) {
+      createItemDescriptionDto.actQTY = createItemDescriptionDto.good;
+    }
+
+    if (createItemDescriptionDto.good === 0) {
+      createItemDescriptionDto.actQTY = 0;
+    }
+    createItemDescriptionDto.totQTY =
+      createItemDescriptionDto.good +
+      createItemDescriptionDto.maintenance +
+      createItemDescriptionDto.waste;
+
     return await this.itemModel.create(createItemDescriptionDto);
   }
 
