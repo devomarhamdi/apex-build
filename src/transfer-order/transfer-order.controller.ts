@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TransferOrderService } from './transfer-order.service';
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
@@ -22,7 +14,10 @@ export class TransferOrderController {
   }
 
   @Post('orders')
-  createOrders(@Body() createTransferOrderDto: CreateTransferOrderDto[]) {
+  createOrders(
+    @Body()
+    createTransferOrderDto: CreateTransferOrderDto[],
+  ) {
     return this.transferOrderService.createMany(createTransferOrderDto);
   }
 
