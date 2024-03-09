@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -24,14 +20,12 @@ export class TransferOrderService {
 
   //The performence will not be very effiecnt
   async create(createTransferOrderDto: CreateTransferOrderDto) {
-    // 1- Getting all the required fields
+    // Getting all the required fields
     const itemDescription = await this.itemDescriptionService.findOne(
       createTransferOrderDto.itemDescription.toString(),
     );
 
-    const balance = await this.balanceService.findItemBalance(
-      itemDescription._id,
-    );
+    const balance = await this.balanceService.findItemBalance(itemDescription._id);
 
     const fromProject = await this.projectService.findOne(
       createTransferOrderDto.fromProject.toString(),
@@ -41,16 +35,13 @@ export class TransferOrderService {
       createTransferOrderDto.toProject.toString(),
     );
 
-    // 2- Increaseing the order number
-    const latestOrder = await this.transferModel
-      .findOne()
-      .sort('-orderNo')
-      .exec();
+    // Increaseing the order number
+    const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
     const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
 
     createTransferOrderDto.orderNo = orderNo;
 
-    // 3- Making the transferId
+    // Making the transferId
     const fromProjectCode = fromProject.name.slice(0, 2);
     const toProjectCode = toProject.name.slice(0, 2);
     const transferDateObject = new Date(createTransferOrderDto.transferDate);
@@ -61,12 +52,14 @@ export class TransferOrderService {
 
     createTransferOrderDto.transferId = transferId;
 
-    // 4- Handling the Balance
+    // Handling the Balance
     if (createTransferOrderDto.itemCondition === 'good') {
       if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
         balance.good = balance.good - createTransferOrderDto.quantity;
-        balance.actQTY = balance.actQTY - createTransferOrderDto.quantity;
-        balance.totQTY = balance.totQTY - createTransferOrderDto.quantity;
+        balance.actQTY =
+          balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
+        balance.totQTY =
+          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
       } else {
         throw new BadRequestException(
           `There is no enough good balance. The remaining is ${balance.good} items`,
@@ -77,21 +70,19 @@ export class TransferOrderService {
         balance.maintenance > 0 &&
         createTransferOrderDto.quantity <= balance.maintenance
       ) {
-        balance.maintenance =
-          balance.maintenance - createTransferOrderDto.quantity;
-        balance.totQTY = balance.totQTY - createTransferOrderDto.quantity;
+        balance.maintenance -= createTransferOrderDto.quantity;
+        balance.totQTY =
+          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
       } else {
         throw new BadRequestException(
           `There is no enough maintenance balance. The remaining is ${balance.maintenance} items`,
         );
       }
     } else {
-      if (
-        balance.waste > 0 &&
-        createTransferOrderDto.quantity <= balance.waste
-      ) {
-        balance.waste = balance.waste - createTransferOrderDto.quantity;
-        balance.totQTY = balance.totQTY - createTransferOrderDto.quantity;
+      if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
+        balance.waste -= createTransferOrderDto.quantity;
+        balance.totQTY =
+          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
       } else {
         throw new BadRequestException(
           `There is no enough waste balance. The remaining is ${balance.waste} items`,
@@ -112,9 +103,7 @@ export class TransferOrderService {
         createTransferOrderDto.itemDescription.toString(),
       );
 
-      const balance = await this.balanceService.findItemBalance(
-        itemDescription._id,
-      );
+      const balance = await this.balanceService.findItemBalance(itemDescription._id);
 
       const fromProject = await this.projectService.findOne(
         createTransferOrderDto.fromProject.toString(),
@@ -125,10 +114,7 @@ export class TransferOrderService {
       );
 
       // Increasing the order number
-      const latestOrder = await this.transferModel
-        .findOne()
-        .sort('-orderNo')
-        .exec();
+      const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
       const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
 
       createTransferOrderDto.orderNo = orderNo;
@@ -146,13 +132,12 @@ export class TransferOrderService {
 
       // Handling the Balance
       if (createTransferOrderDto.itemCondition === 'good') {
-        if (
-          balance.good > 0 &&
-          createTransferOrderDto.quantity <= balance.good
-        ) {
+        if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
           balance.good -= createTransferOrderDto.quantity;
-          balance.actQTY -= createTransferOrderDto.quantity;
-          balance.totQTY -= createTransferOrderDto.quantity;
+          balance.actQTY =
+            balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
+          balance.totQTY =
+            balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
         } else {
           throw new BadRequestException(
             `There is not enough good balance. The remaining is ${balance.good} items`,
@@ -164,19 +149,18 @@ export class TransferOrderService {
           createTransferOrderDto.quantity <= balance.maintenance
         ) {
           balance.maintenance -= createTransferOrderDto.quantity;
-          balance.totQTY -= createTransferOrderDto.quantity;
+          balance.totQTY =
+            balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
         } else {
           throw new BadRequestException(
             `There is not enough maintenance balance. The remaining is ${balance.maintenance} items`,
           );
         }
       } else {
-        if (
-          balance.waste > 0 &&
-          createTransferOrderDto.quantity <= balance.waste
-        ) {
+        if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
           balance.waste -= createTransferOrderDto.quantity;
-          balance.totQTY -= createTransferOrderDto.quantity;
+          balance.totQTY =
+            balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
         } else {
           throw new BadRequestException(
             `There is not enough waste balance. The remaining is ${balance.waste} items`,
@@ -249,11 +233,9 @@ export class TransferOrderService {
   }
 
   async update(id: string, updateTransferOrderDto: UpdateTransferOrderDto) {
-    const order = await this.transferModel.findByIdAndUpdate(
-      id,
-      updateTransferOrderDto,
-      { new: true },
-    );
+    const order = await this.transferModel.findByIdAndUpdate(id, updateTransferOrderDto, {
+      new: true,
+    });
 
     if (!order) {
       throw new NotFoundException('No order found');
