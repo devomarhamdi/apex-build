@@ -8,6 +8,7 @@ import {
 } from '../schemas/transfer-order.schema';
 import { ItemDescriptionModule } from 'src/item-description/item-description.module';
 import { BalanceModule } from 'src/balance/balance.module';
+import { ProjectsModule } from 'src/projects/projects.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { BalanceModule } from 'src/balance/balance.module';
       { name: TransferOrder.name, schema: TransferOrderSchema },
     ]),
     ItemDescriptionModule,
+    ProjectsModule,
     BalanceModule,
   ],
   controllers: [TransferOrderController],

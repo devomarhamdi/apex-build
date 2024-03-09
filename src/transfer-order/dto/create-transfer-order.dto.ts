@@ -2,13 +2,11 @@ import { ItemDescription } from 'src/schemas/item-description.schema';
 import { Project } from 'src/schemas/project.schema';
 import { itemCondition } from '../../schemas/transfer-order.schema';
 import {
-  IsDate,
+  IsDateString,
   IsEmpty,
   IsEnum,
   IsMongoId,
   IsNotEmpty,
-  IsNumber,
-  IsOptional,
 } from 'class-validator';
 
 export class CreateTransferOrderDto {
@@ -26,8 +24,8 @@ export class CreateTransferOrderDto {
   @IsEnum(itemCondition)
   itemCondition: itemCondition;
 
-  @IsDate()
-  @IsOptional()
+  @IsDateString()
+  @IsNotEmpty()
   transferDate: Date;
 
   @IsNotEmpty()
@@ -42,20 +40,5 @@ export class CreateTransferOrderDto {
   toProject: Project;
 
   @IsEmpty()
-  // @IsNumber()
-  good: number;
-
-  @IsEmpty()
-  // @IsNumber()
-  maintenance: number;
-
-  @IsEmpty()
-  // @IsNumber()
-  waste: number;
-
-  @IsEmpty()
-  totQTY: number;
-
-  @IsEmpty()
-  actQTY: number;
+  orderNo: number;
 }

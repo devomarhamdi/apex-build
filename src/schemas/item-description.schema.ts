@@ -16,6 +16,22 @@ export class ItemDescription {
 
   @Prop()
   purchasingPrice: number;
+
+  @Prop()
+  good: number;
+
+  @Prop()
+  maintenance: number;
+
+  @Prop()
+  waste: number;
+
+  @Prop()
+  totQTY: number;
+
+  @Prop()
+  actQTY: number;
 }
 
-export const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);
+export const itemDescriptionSchema =
+  SchemaFactory.createForClass(ItemDescription);

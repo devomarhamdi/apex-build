@@ -21,6 +21,11 @@ export class TransferOrderController {
     return this.transferOrderService.create(createTransferOrderDto);
   }
 
+  @Post('orders')
+  createOrders(@Body() createTransferOrderDto: CreateTransferOrderDto[]) {
+    return this.transferOrderService.createMany(createTransferOrderDto);
+  }
+
   @Get()
   findAll() {
     return this.transferOrderService.findAll();

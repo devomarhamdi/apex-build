@@ -48,21 +48,6 @@ export class TransferOrder {
   toProject: Project;
 
   @Prop()
-  good: number;
-
-  @Prop()
-  maintenance: number;
-
-  @Prop()
-  waste: number;
-
-  @Prop()
-  totQTY: number;
-
-  @Prop()
-  actQTY: number;
-
-  @Prop()
   orderNo: number;
 }
 
