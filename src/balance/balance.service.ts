@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBalanceDto } from './dto/create-balance.dto';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
 import { Balance } from 'src/schemas/balance.schema';
@@ -13,19 +13,34 @@ export class BalanceService {
   ) {}
 
   async create(createBalanceDto: CreateBalanceDto) {
-    if (createBalanceDto.good > 0) {
-      createBalanceDto.actQTY = createBalanceDto.good;
-    }
+    // Checking if there is a balance already for the item
+    const isExist = await this.balanceModel.findOne({
+      itemDescription: createBalanceDto.itemDescription,
+    });
 
-    if (createBalanceDto.good === 0) {
-      createBalanceDto.actQTY = 0;
-    }
-    createBalanceDto.totQTY =
-      createBalanceDto.good +
-      createBalanceDto.maintenance +
-      createBalanceDto.waste;
+    if (isExist) {
+      throw new BadRequestException('There is an existing balance for this Item');
+    } else {
+      // Checking is value greater than 0
+      const dto = createBalanceDto;
+      if (dto.good > 0 && dto.maintenance > 0 && dto.waste > 0) {
+        // Creating the balance
+        if (dto.good > 0) {
+          dto.actQTY = dto.good;
+        }
 
-    return await this.balanceModel.create(createBalanceDto);
+        if (dto.good === 0) {
+          dto.actQTY = 0;
+        }
+        dto.totQTY = dto.good + dto.maintenance + dto.waste;
+
+        return await this.balanceModel.create(createBalanceDto);
+      } else {
+        throw new BadRequestException(
+          'There must not be a negative value in the conditions',
+        );
+      }
+    }
   }
 
   async findAll() {
@@ -69,27 +84,33 @@ export class BalanceService {
   }
 
   async update(id: string, updateBalanceDto: UpdateBalanceDto) {
-    if (updateBalanceDto.good > 0) {
-      updateBalanceDto.actQTY = updateBalanceDto.good;
+    const balance = await this.balanceModel.findById(id);
+
+    if (!balance) {
+      throw new NotFoundException('No balance found');
     }
 
-    if (updateBalanceDto.good === 0) {
-      updateBalanceDto.actQTY = 0;
-    }
-    if (
-      updateBalanceDto.good &&
-      updateBalanceDto.maintenance &&
-      updateBalanceDto.waste
-    ) {
-      updateBalanceDto.totQTY =
-        updateBalanceDto.good +
-        updateBalanceDto.maintenance +
-        updateBalanceDto.waste;
-    }
+    const dto = updateBalanceDto;
 
-    return await this.balanceModel.findByIdAndUpdate(id, updateBalanceDto, {
-      new: true,
-    });
+    if (dto.good >= 0 && dto.maintenance >= 0 && dto.waste >= 0) {
+      // Creating the balance
+      if (dto.good > 0) {
+        dto.actQTY = dto.good;
+      }
+
+      if (dto.good === 0) {
+        dto.actQTY = 0;
+      }
+      dto.totQTY = dto.good + dto.maintenance + dto.waste;
+
+      return await this.balanceModel.findByIdAndUpdate(id, updateBalanceDto, {
+        new: true,
+      });
+    } else {
+      throw new BadRequestException(
+        'There must not be a negative or missing values in the conditions',
+      );
+    }
   }
 
   async remove(id: string) {
