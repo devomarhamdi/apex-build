@@ -23,7 +23,7 @@ export class AuthService {
     const isMatch = await bcrypt.compare(loginDto.password, user.password);
 
     if (user && isMatch) {
-      const payload = { _id: user._id };
+      const payload = { user };
       return { token: this.jwtService.sign(payload), user };
     } else {
       throw new BadRequestException('Email or password is invalid');
