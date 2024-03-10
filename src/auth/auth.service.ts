@@ -2,27 +2,27 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/login.dto';
+import * as bcrypt from 'bcrypt';
+import { User } from 'src/schemas/user.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectModel(User.name)
+    private userModel: Model<User>,
     private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
-  // async validateUser(loginDto: LoginDto): Promise<any> {
-  //   const user = await this.userService.findOneByEmail(loginDto.email);
-  //   if (user && user.password === loginDto.password) {
-  //     const { password, ...result } = user;
-  //     return result;
-  //   }
-  //   return null;
-  // }
-
   async login(loginDto: LoginDto) {
-    const user = await this.userService.findOneByEmail(loginDto.email);
+    const user = await this.userModel
+      .findOne({ email: loginDto.email })
+      .select('+password');
+    const isMatch = await bcrypt.compare(loginDto.password, user.password);
 
-    if (user && user.password === loginDto.password) {
+    if (user && isMatch) {
       const payload = { _id: user._id };
       return { token: this.jwtService.sign(payload), user };
     } else {
