@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src/schemas/user.schema';
@@ -27,7 +23,7 @@ export class UserService {
     if (!isExist) {
       // Prepare the user image
       const userName = `${createUserDto.firstName}+${createUserDto.lastName}`;
-      const image = `https://ui-avatars.com/api/?name=${userName}&background=random&size=512`;
+      const image = `https://ui-avatars.com/api/?name=${userName}&background=40E0D0&size=512`;
 
       createUserDto.profilePic = image;
 
