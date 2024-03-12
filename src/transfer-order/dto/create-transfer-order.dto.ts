@@ -8,6 +8,7 @@ import {
   IsMongoId,
   IsNotEmpty,
   IsOptional,
+  IsString,
 } from 'class-validator';
 
 export class CreateTransferOrderDto {
@@ -46,4 +47,8 @@ export class CreateTransferOrderDto {
   @IsOptional()
   @IsEnum(status)
   status: status;
+
+  @IsOptional()
+  @IsString()
+  orderNotes: string;
 }

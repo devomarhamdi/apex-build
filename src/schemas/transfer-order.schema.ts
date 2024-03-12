@@ -58,6 +58,9 @@ export class TransferOrder {
 
   @Prop({ enum: ['processing', 'unmatched', 'done'] })
   status: status;
+
+  @Prop()
+  orderNotes: string;
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);

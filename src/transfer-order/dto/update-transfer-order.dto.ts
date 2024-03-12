@@ -1,4 +1,16 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateTransferOrderDto } from './create-transfer-order.dto';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
+import { Project } from 'src/schemas/project.schema';
 
-export class UpdateTransferOrderDto extends PartialType(CreateTransferOrderDto) {}
+export class UpdateTransferOrderDto {
+  @IsOptional()
+  @IsString()
+  driverName: string;
+
+  @IsOptional()
+  @IsMongoId()
+  fromProject: Project;
+
+  @IsOptional()
+  @IsMongoId()
+  toProject: Project;
+}

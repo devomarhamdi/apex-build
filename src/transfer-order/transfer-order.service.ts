@@ -7,6 +7,7 @@ import { Model } from 'mongoose';
 import { ItemDescriptionService } from 'src/item-description/item-description.service';
 import { BalanceService } from 'src/balance/balance.service';
 import { ProjectsService } from 'src/projects/projects.service';
+import { UpdateIncomeDto } from './dto/update-income.dto';
 
 @Injectable()
 export class TransferOrderService {
@@ -133,6 +134,9 @@ export class TransferOrderService {
 
         createTransferOrderDto.transferId = transferId;
 
+        // Intializing the order status
+        createTransferOrderDto.status = status.processing;
+
         // Handling the Balance
         if (createTransferOrderDto.itemCondition === 'good') {
           if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
@@ -216,6 +220,34 @@ export class TransferOrderService {
     return response;
   }
 
+  async income() {
+    const orders = await this.transferModel
+      .find({ status: status.processing })
+      .populate({
+        path: 'itemDescription',
+        select: ['itemDescription', 'code', 'Weight', '-_id'],
+      })
+      .populate({
+        path: 'fromProject',
+        select: ['name', '-_id'],
+      })
+      .populate({
+        path: 'toProject',
+        select: ['name', '-_id'],
+      });
+
+    if (!orders) {
+      throw new NotFoundException('No orders found');
+    }
+
+    const response = {
+      results: orders.length,
+      data: orders,
+    };
+
+    return response;
+  }
+
   async findOne(id: string) {
     const order = await this.transferModel
       .findById(id)
@@ -240,15 +272,41 @@ export class TransferOrderService {
   }
 
   async update(id: string, updateTransferOrderDto: UpdateTransferOrderDto) {
-    const order = await this.transferModel.findByIdAndUpdate(id, updateTransferOrderDto, {
+    const order = await this.transferModel.findById(id);
+
+    if (!order) {
+      throw new NotFoundException('No order found');
+    }
+    // Getting all the required fields
+
+    if (updateTransferOrderDto.fromProject) {
+      const fromProject = await this.projectService.findOne(
+        updateTransferOrderDto.fromProject.toString(),
+      );
+      updateTransferOrderDto.fromProject = fromProject;
+    }
+    if (updateTransferOrderDto.toProject) {
+      const toProject = await this.projectService.findOne(
+        updateTransferOrderDto.toProject.toString(),
+      );
+      updateTransferOrderDto.toProject = toProject;
+    }
+
+    return await this.transferModel.findByIdAndUpdate(id, updateTransferOrderDto, {
       new: true,
     });
+  }
+
+  async updateIncome(id: string, updateIncomeDto: UpdateIncomeDto) {
+    const order = await this.transferModel.findById(id);
 
     if (!order) {
       throw new NotFoundException('No order found');
     }
 
-    return order;
+    return await this.transferModel.findByIdAndUpdate(id, updateIncomeDto, {
+      new: true,
+    });
   }
 
   async remove(id: string) {
