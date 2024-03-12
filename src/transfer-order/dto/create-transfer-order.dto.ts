@@ -1,12 +1,13 @@
 import { ItemDescription } from 'src/schemas/item-description.schema';
 import { Project } from 'src/schemas/project.schema';
-import { itemCondition } from '../../schemas/transfer-order.schema';
+import { itemCondition, status } from '../../schemas/transfer-order.schema';
 import {
   IsDateString,
   IsEmpty,
   IsEnum,
   IsMongoId,
   IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateTransferOrderDto {
@@ -41,4 +42,8 @@ export class CreateTransferOrderDto {
 
   @IsEmpty()
   orderNo: number;
+
+  @IsOptional()
+  @IsEnum(status)
+  status: status;
 }

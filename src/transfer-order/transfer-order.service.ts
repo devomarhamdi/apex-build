@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { TransferOrder } from '../schemas/transfer-order.schema';
+import { TransferOrder, status } from '../schemas/transfer-order.schema';
 import { Model } from 'mongoose';
 import { ItemDescriptionService } from 'src/item-description/item-description.service';
 import { BalanceService } from 'src/balance/balance.service';
@@ -51,6 +51,9 @@ export class TransferOrderService {
     const transferId = `${fromProjectCode}-${toProjectCode}-${month}-${year}-${orderNo}`;
 
     createTransferOrderDto.transferId = transferId;
+
+    // Intializing the order status
+    createTransferOrderDto.status = status.processing;
 
     // Handling the Balance
     if (createTransferOrderDto.itemCondition === 'good') {

@@ -9,6 +9,12 @@ export enum itemCondition {
   waste = 'waste',
 }
 
+export enum status {
+  processing = 'processing',
+  unmatched = 'unmatched',
+  done = 'done',
+}
+
 @Schema({ timestamps: true })
 export class TransferOrder {
   @Prop({
@@ -49,6 +55,9 @@ export class TransferOrder {
 
   @Prop()
   orderNo: number;
+
+  @Prop({ enum: ['processing', 'unmatched', 'done'] })
+  status: status;
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);
