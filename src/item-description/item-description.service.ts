@@ -13,18 +13,6 @@ export class ItemDescriptionService {
   ) {}
 
   async create(createItemDescriptionDto: CreateItemDescriptionDto) {
-    if (createItemDescriptionDto.good > 0) {
-      createItemDescriptionDto.actQTY = createItemDescriptionDto.good;
-    }
-
-    if (createItemDescriptionDto.good === 0) {
-      createItemDescriptionDto.actQTY = 0;
-    }
-    createItemDescriptionDto.totQTY =
-      createItemDescriptionDto.good +
-      createItemDescriptionDto.maintenance +
-      createItemDescriptionDto.waste;
-
     return await this.itemModel.create(createItemDescriptionDto);
   }
 
@@ -58,13 +46,9 @@ export class ItemDescriptionService {
       throw new NotFoundException('No item found');
     }
 
-    return await this.itemModel.findByIdAndUpdate(
-      id,
-      updateItemDescriptionDto,
-      {
-        new: true,
-      },
-    );
+    return await this.itemModel.findByIdAndUpdate(id, updateItemDescriptionDto, {
+      new: true,
+    });
   }
 
   async remove(id: string) {
