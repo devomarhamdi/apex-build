@@ -1,6 +1,6 @@
 import { ItemDescription } from 'src/schemas/item-description.schema';
 import { Project } from 'src/schemas/project.schema';
-import { itemCondition, status } from '../../schemas/transfer-order.schema';
+import { itemCondition, orderStatus } from '../../schemas/transfer-order.schema';
 import {
   IsDateString,
   IsEmpty,
@@ -45,8 +45,8 @@ export class CreateTransferOrderDto {
   orderNo: number;
 
   @IsOptional()
-  @IsEnum(status)
-  status: status;
+  @IsEnum(orderStatus)
+  status: orderStatus;
 
   @IsOptional()
   @IsString()

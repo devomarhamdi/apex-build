@@ -9,7 +9,7 @@ export enum itemCondition {
   waste = 'waste',
 }
 
-export enum status {
+export enum orderStatus {
   processing = 'processing',
   unmatched = 'unmatched',
   done = 'done',
@@ -57,7 +57,7 @@ export class TransferOrder {
   orderNo: number;
 
   @Prop({ enum: ['processing', 'unmatched', 'done'] })
-  status: status;
+  status: orderStatus;
 
   @Prop()
   orderNotes: string;

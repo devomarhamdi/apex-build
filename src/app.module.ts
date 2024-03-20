@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { config } from 'dotenv';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from 'env.validation';
+import { RequestModule } from './request/request.module';
 
 config();
 
@@ -31,6 +32,7 @@ config();
     BalanceModule,
     AuthModule,
     UserModule,
+    RequestModule,
   ],
   controllers: [AppController],
   providers: [],

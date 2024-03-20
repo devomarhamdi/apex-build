@@ -49,8 +49,8 @@ export class BalanceService {
       select: ['itemDescription', 'code', 'Weight', '-_id'],
     });
 
-    if (!balance) {
-      throw new NotFoundException('No balance found');
+    if (balance.length === 0) {
+      return { message: 'There is no balance found' };
     }
 
     const response = {

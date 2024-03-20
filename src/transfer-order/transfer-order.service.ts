@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { TransferOrder, status } from '../schemas/transfer-order.schema';
+import { TransferOrder, orderStatus } from '../schemas/transfer-order.schema';
 import { Model } from 'mongoose';
 import { ItemDescriptionService } from 'src/item-description/item-description.service';
 import { BalanceService } from 'src/balance/balance.service';
@@ -21,7 +21,7 @@ export class TransferOrderService {
 
   //The performence will not be very effiecnt
   async create(createTransferOrderDto: CreateTransferOrderDto) {
-    // Getting all the required fields
+    // Finding all the required fields
     const itemDescription = await this.itemDescriptionService.findOne(
       createTransferOrderDto.itemDescription.toString(),
     );
@@ -54,7 +54,7 @@ export class TransferOrderService {
     createTransferOrderDto.transferId = transferId;
 
     // Intializing the order status
-    createTransferOrderDto.status = status.processing;
+    createTransferOrderDto.status = orderStatus.processing;
 
     // Handling the Balance
     if (createTransferOrderDto.itemCondition === 'good') {
@@ -102,7 +102,7 @@ export class TransferOrderService {
     const orders = [];
     try {
       for (const createTransferOrderDto of createTransferOrderDtos) {
-        // Getting all the required fields
+        // Finding all the required fields
         const itemDescription = await this.itemDescriptionService.findOne(
           createTransferOrderDto.itemDescription.toString(),
         );
@@ -135,7 +135,7 @@ export class TransferOrderService {
         createTransferOrderDto.transferId = transferId;
 
         // Intializing the order status
-        createTransferOrderDto.status = status.processing;
+        createTransferOrderDto.status = orderStatus.processing;
 
         // Handling the Balance
         if (createTransferOrderDto.itemCondition === 'good') {
@@ -208,8 +208,8 @@ export class TransferOrderService {
         select: ['name', '-_id'],
       });
 
-    if (!orders) {
-      throw new NotFoundException('No orders found');
+    if (orders.length === 0) {
+      return { message: 'There is no orders found' };
     }
 
     const response = {
@@ -222,7 +222,7 @@ export class TransferOrderService {
 
   async income() {
     const orders = await this.transferModel
-      .find({ status: status.processing })
+      .find({ status: orderStatus.processing })
       .populate({
         path: 'itemDescription',
         select: ['itemDescription', 'code', 'Weight', '-_id'],
