@@ -37,6 +37,42 @@ export class RequestService {
     return await this.requestModel.create(createRequestDto);
   }
 
+  async createMany(createRequestDtos: CreateRequestDto[]) {
+    const requests = [];
+    try {
+      for (const createRequestDto of createRequestDtos) {
+        // Finding all the required fields
+        await this.itemDescriptionService.findOne(
+          createRequestDto.itemDescription.toString(),
+        );
+
+        await this.projectService.findOne(createRequestDto.fromProject.toString());
+
+        await this.projectService.findOne(createRequestDto.toProject.toString());
+
+        // Increaseing the request number
+        const latestRequest = await this.requestModel.findOne().sort('-requestNo').exec();
+        const requestNo = latestRequest ? latestRequest.requestNo + 1 : 1;
+
+        createRequestDto.requestNo = requestNo;
+
+        // Intializing the request status
+        createRequestDto.status = requestStatus.processing;
+        requests.push(await this.requestModel.create(createRequestDto));
+      }
+
+      const res = {
+        results: requests.length,
+        data: requests,
+      };
+
+      return res;
+    } catch (error) {
+      const message = error.message.split('failed: ')[1].split(', ');
+      return { message };
+    }
+  }
+
   async findAll() {
     const requests = await this.requestModel
       .find()

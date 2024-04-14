@@ -44,6 +44,9 @@ export class Request {
 
   @Prop({ enum: ['processing', 'cancelled', 'done'] })
   status: requestStatus;
+
+  @Prop()
+  activity: string;
 }
 
 export const RequestSchema = SchemaFactory.createForClass(Request);

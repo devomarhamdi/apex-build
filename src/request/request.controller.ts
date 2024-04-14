@@ -13,6 +13,11 @@ export class RequestController {
     return this.requestService.create(createRequestDto);
   }
 
+  @Post('requests')
+  createMany(@Body() createRequestDto: CreateRequestDto[]) {
+    return this.requestService.createMany(createRequestDto);
+  }
+
   @Get()
   findAll() {
     return this.requestService.findAll();
