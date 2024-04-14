@@ -36,6 +36,11 @@ export class TransferOrderService {
       createTransferOrderDto.toProject.toString(),
     );
 
+    // Handling the project name
+    if (createTransferOrderDto.fromProject === createTransferOrderDto.toProject) {
+      throw new BadRequestException('The From project cannot be the same as to project');
+    }
+
     // Increaseing the order number
     const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
     const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
@@ -117,6 +122,12 @@ export class TransferOrderService {
           createTransferOrderDto.toProject.toString(),
         );
 
+        // Handling the project name
+        if (createTransferOrderDto.fromProject === createTransferOrderDto.toProject) {
+          throw new BadRequestException(
+            'The From project cannot be the same as to project',
+          );
+        }
         // Increasing the order number
         const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
         const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
@@ -187,8 +198,8 @@ export class TransferOrderService {
 
       return res;
     } catch (error) {
-      const message = error.message.split('failed: ')[1].split(', ');
-      return { message };
+      // const message = error.message.split('failed: ')[1].split(', ');
+      return { error: error.message };
     }
   }
 

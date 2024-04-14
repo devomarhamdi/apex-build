@@ -18,6 +18,9 @@ export class ItemDescription {
   purchasingPrice: number;
 
   @Prop()
+  rentingPrice: number;
+
+  @Prop()
   good: number;
 
   @Prop()
@@ -33,5 +36,4 @@ export class ItemDescription {
   actQTY: number;
 }
 
-export const itemDescriptionSchema =
-  SchemaFactory.createForClass(ItemDescription);
+export const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);

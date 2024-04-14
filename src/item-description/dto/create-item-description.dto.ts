@@ -7,12 +7,19 @@ export class CreateItemDescriptionDto {
   @IsNotEmpty()
   code: string;
 
+  @IsNotEmpty()
   @IsDecimal()
   Weight: number;
 
+  @IsNotEmpty()
   @IsDecimal()
   sellingPrice: number;
 
+  @IsNotEmpty()
   @IsDecimal()
   purchasingPrice: number;
+
+  @IsDecimal()
+  @IsNotEmpty()
+  rentingPrice: number;
 }
