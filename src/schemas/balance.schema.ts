@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { ItemDescription } from './item-description.schema';
+import { Project } from './project.schema';
 
 @Schema({ timestamps: true })
 export class Balance {
@@ -25,6 +26,13 @@ export class Balance {
 
   @Prop()
   actQTY: number;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project',
+    required: true,
+  })
+  project: Project;
 }
 
 export const BalanceSchema = SchemaFactory.createForClass(Balance);

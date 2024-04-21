@@ -4,42 +4,60 @@ import { UpdateBalanceDto } from './dto/update-balance.dto';
 import { Balance } from 'src/schemas/balance.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Project } from 'src/schemas/project.schema';
+import { ItemDescription } from 'src/schemas/item-description.schema';
 
 @Injectable()
 export class BalanceService {
   constructor(
     @InjectModel(Balance.name)
     private balanceModel: Model<Balance>,
+    @InjectModel(Project.name)
+    private projectModel: Model<Project>,
+    @InjectModel(ItemDescription.name)
+    private itemModel: Model<ItemDescription>,
   ) {}
 
   async create(createBalanceDto: CreateBalanceDto) {
-    // Checking if there is a balance already for the item
-    const isExist = await this.balanceModel.findOne({
-      itemDescription: createBalanceDto.itemDescription,
-    });
+    // Checking if the project is exist
+    const project = await this.projectModel.findById(createBalanceDto.project);
+    const itemDescription = await this.itemModel.findById(
+      createBalanceDto.itemDescription,
+    );
+    if (project && itemDescription) {
+      // Checking if there is a balance already for the item
+      const isExist = await this.balanceModel.findOne({
+        itemDescription: createBalanceDto.itemDescription,
+        project,
+      });
 
-    if (isExist) {
-      throw new BadRequestException('There is an existing balance for this Item');
-    } else {
-      // Checking is value greater than 0
-      const dto = createBalanceDto;
-      if (dto.good > 0 && dto.maintenance > 0 && dto.waste > 0) {
-        // Creating the balance
-        if (dto.good > 0) {
-          dto.actQTY = dto.good;
-        }
-
-        if (dto.good === 0) {
-          dto.actQTY = 0;
-        }
-        dto.totQTY = dto.good + dto.maintenance + dto.waste;
-
-        return await this.balanceModel.create(createBalanceDto);
-      } else {
+      if (isExist) {
         throw new BadRequestException(
-          'There must not be a negative value in the conditions',
+          'There is an existing balance for this Item to this Project',
         );
+      } else {
+        // Checking is value greater than 0
+        const dto = createBalanceDto;
+        if (dto.good > 0 && dto.maintenance > 0 && dto.waste > 0) {
+          // Creating the balance
+          if (dto.good > 0) {
+            dto.actQTY = dto.good;
+          }
+
+          if (dto.good === 0) {
+            dto.actQTY = 0;
+          }
+          dto.totQTY = dto.good + dto.maintenance + dto.waste;
+
+          return await this.balanceModel.create(createBalanceDto);
+        } else {
+          throw new BadRequestException(
+            'There must not be a negative value in the conditions',
+          );
+        }
       }
+    } else {
+      throw new NotFoundException('No project or item found');
     }
   }
 
