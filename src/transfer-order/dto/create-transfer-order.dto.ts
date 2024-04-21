@@ -7,6 +7,7 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -17,6 +18,7 @@ export class CreateTransferOrderDto {
   itemDescription: ItemDescription;
 
   @IsNotEmpty()
+  @IsNumber()
   quantity: number;
 
   @IsEmpty()
@@ -30,8 +32,9 @@ export class CreateTransferOrderDto {
   @IsNotEmpty()
   transferDate: Date;
 
-  @IsNotEmpty()
-  driverName: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // driverName: string;
 
   @IsNotEmpty()
   @IsMongoId()
@@ -51,4 +54,8 @@ export class CreateTransferOrderDto {
   @IsOptional()
   @IsString()
   orderNotes: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  transferNumber: number;
 }

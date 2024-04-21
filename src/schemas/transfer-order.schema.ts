@@ -36,8 +36,8 @@ export class TransferOrder {
   @Prop({ default: Date.now() })
   transferDate: Date;
 
-  @Prop({ required: true })
-  driverName: string;
+  // @Prop({ required: true })
+  // driverName: string;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -61,6 +61,9 @@ export class TransferOrder {
 
   @Prop()
   orderNotes: string;
+
+  @Prop()
+  transferNumber: number;
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);
