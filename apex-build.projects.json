@@ -1,0 +1,584 @@
+[{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b0"
+  },
+  "code": 1,
+  "name": "Al Jazi Mall",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b1"
+  },
+  "code": 2,
+  "name": "Bin Zayed Tunnel  ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b2"
+  },
+  "code": 3,
+  "name": "CFC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b3"
+  },
+  "code": 4,
+  "name": "DPW Onshore Port & Terminal",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b4"
+  },
+  "code": 5,
+  "name": "EL Sewedy -University Phase 2",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b5"
+  },
+  "code": 6,
+  "name": "EL-Hegaz Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b6"
+  },
+  "code": 7,
+  "name": "Hyper EL-Sheikh Zayed",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b7"
+  },
+  "code": 8,
+  "name": "IKEA",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b8"
+  },
+  "code": 9,
+  "name": "Ismailia Abo Sultan Bridge (2)",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3b9"
+  },
+  "code": 10,
+  "name": "KAYAN",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ba"
+  },
+  "code": 11,
+  "name": "LRT",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3bb"
+  },
+  "code": 12,
+  "name": "Mangroovy",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3bc"
+  },
+  "code": 13,
+  "name": "Marassi  Pkg.144",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3bd"
+  },
+  "code": 14,
+  "name": "PKG # 162 ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3be"
+  },
+  "code": 15,
+  "name": "Ministries",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3bf"
+  },
+  "code": 16,
+  "name": "Mintra",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c0"
+  },
+  "code": 17,
+  "name": "Mivida",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c1"
+  },
+  "code": 18,
+  "name": "Mohamed Ali Palace",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c2"
+  },
+  "code": 19,
+  "name": "OLYMPIC-MULTi- Sports-Hall",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c3"
+  },
+  "code": 20,
+  "name": "PKG 53#",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c4"
+  },
+  "code": 21,
+  "name": "R5",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c5"
+  },
+  "code": 22,
+  "name": "Rolling Mill",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c6"
+  },
+  "code": 23,
+  "name": "Royal City Mall",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c7"
+  },
+  "code": 24,
+  "name": "Sodic East Town",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c8"
+  },
+  "code": 25,
+  "name": "Sokhna Tunnel  ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3c9"
+  },
+  "code": 26,
+  "name": "Sub-Station Ismailia",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ca"
+  },
+  "code": 27,
+  "name": "Abbas EL-Akkad Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3cb"
+  },
+  "code": 28,
+  "name": "EL-Asher Mn Ramadan Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3cc"
+  },
+  "code": 29,
+  "name": "EL-Shorouk Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3cd"
+  },
+  "code": 30,
+  "name": "Lekela 250 MW Wind Farm",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ce"
+  },
+  "code": 31,
+  "name": "Ring Road Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3cf"
+  },
+  "code": 32,
+  "name": "Beni Suef Cement Factory",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d0"
+  },
+  "code": 33,
+  "name": "Siemens",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d1"
+  },
+  "code": 34,
+  "name": "Temai Al Amaded  Power Plant",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d2"
+  },
+  "code": 35,
+  "name": "Beni Suef Power Plant",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d3"
+  },
+  "code": 36,
+  "name": "Sultana Malak Palace",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d4"
+  },
+  "code": 37,
+  "name": "Hassan EL Mamoun Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d5"
+  },
+  "code": 38,
+  "name": "Kafr Shokr Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d6"
+  },
+  "code": 39,
+  "name": "ORA - ZED",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d7"
+  },
+  "code": 40,
+  "name": "Gov2 ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d8"
+  },
+  "code": 41,
+  "name": "El Sewedy HQ Internal Finishing",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3d9"
+  },
+  "code": 42,
+  "name": "Kattameya Creeks",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3da"
+  },
+  "code": 43,
+  "name": "PLAYA Resort",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3db"
+  },
+  "code": 44,
+  "name": "PKG # 178",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3dc"
+  },
+  "code": 45,
+  "name": "El Mansoura University",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3dd"
+  },
+  "code": 46,
+  "name": "MDF Factory",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3de"
+  },
+  "code": 47,
+  "name": "EGAT Pelletizing Plant",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3df"
+  },
+  "code": 48,
+  "name": "KEMET",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e0"
+  },
+  "code": 49,
+  "name": "Air Defense College",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e1"
+  },
+  "code": 50,
+  "name": "CIB SODIC HEAD OFFICE",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e2"
+  },
+  "code": 51,
+  "name": "Egyptian Exchange Building",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e3"
+  },
+  "code": 52,
+  "name": "El Khatatba Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e4"
+  },
+  "code": 53,
+  "name": "Ras ELteen Hangar",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e5"
+  },
+  "code": 54,
+  "name": "New Giza Hospital ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e6"
+  },
+  "code": 55,
+  "name": "Alamein Coastal Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e7"
+  },
+  "code": 56,
+  "name": "Abou Ghaleb Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e8"
+  },
+  "code": 57,
+  "name": "EL Skhona - New Capital Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3e9"
+  },
+  "code": 58,
+  "name": "Rolling Mill # 4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ea"
+  },
+  "code": 59,
+  "name": "Radamis City",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3eb"
+  },
+  "code": 60,
+  "name": "Mivida BP#189",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ec"
+  },
+  "code": 61,
+  "name": "Gawhar Al-Lala Mosque",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ed"
+  },
+  "code": 62,
+  "name": "October - Railway Tunnel",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ee"
+  },
+  "code": 63,
+  "name": "Qanibay Alrammah Mosque",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3ef"
+  },
+  "code": 64,
+  "name": "HST EL Mahger Bridge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f0"
+  },
+  "code": 65,
+  "name": " Wadi EL Natron Bridge \t",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f1"
+  },
+  "code": 66,
+  "name": "Port Said Port Silos",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f2"
+  },
+  "code": 67,
+  "name": "Al Hussien Mosque ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f3"
+  },
+  "code": 68,
+  "name": "Sokhna Port Expansion",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f4"
+  },
+  "code": 69,
+  "name": "Waldorf Astoria",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f5"
+  },
+  "code": 70,
+  "name": "EIPICO",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f6"
+  },
+  "code": 71,
+  "name": "Darb Allabana Bldgs",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f7"
+  },
+  "code": 72,
+  "name": "The Open Channel-0160",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cd0d46fcd44343e06da3f8"
+  },
+  "code": 73,
+  "name": "Tarek AbdelHakim ",
+  "__v": 0
+}]
