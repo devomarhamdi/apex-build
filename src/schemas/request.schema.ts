@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ItemDescription } from './item-description.schema';
 import mongoose from 'mongoose';
-import { itemCondition } from './transfer-order.schema';
 import { Project } from './project.schema';
 
 export enum requestStatus {
@@ -22,15 +21,15 @@ export class Request {
   @Prop()
   quantity: number;
 
-  @Prop({ enum: ['good', 'maintenance', 'waste'] })
-  itemCondition: itemCondition;
+  // @Prop({ enum: ['good', 'maintenance', 'waste'] })
+  // itemCondition: itemCondition;
 
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
-    required: true,
-  })
-  fromProject: Project;
+  // @Prop({
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Project',
+  //   required: true,
+  // })
+  // fromProject: Project;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

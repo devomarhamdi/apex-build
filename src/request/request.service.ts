@@ -22,8 +22,6 @@ export class RequestService {
       createRequestDto.itemDescription.toString(),
     );
 
-    await this.projectService.findOne(createRequestDto.fromProject.toString());
-
     await this.projectService.findOne(createRequestDto.toProject.toString());
 
     // Increaseing the request number
@@ -45,8 +43,6 @@ export class RequestService {
         await this.itemDescriptionService.findOne(
           createRequestDto.itemDescription.toString(),
         );
-
-        await this.projectService.findOne(createRequestDto.fromProject.toString());
 
         await this.projectService.findOne(createRequestDto.toProject.toString());
 
@@ -137,12 +133,6 @@ export class RequestService {
         updateRequestDto.itemDescription.toString(),
       );
       updateRequestDto.itemDescription = itemDescription;
-    }
-    if (updateRequestDto.fromProject) {
-      const fromProject = await this.projectService.findOne(
-        updateRequestDto.fromProject.toString(),
-      );
-      updateRequestDto.fromProject = fromProject;
     }
     if (updateRequestDto.toProject) {
       const toProject = await this.projectService.findOne(

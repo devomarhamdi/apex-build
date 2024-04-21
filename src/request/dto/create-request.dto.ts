@@ -1,6 +1,5 @@
 import { ItemDescription } from 'src/schemas/item-description.schema';
 import { Project } from 'src/schemas/project.schema';
-import { itemCondition } from '../../schemas/transfer-order.schema';
 import {
   IsEmpty,
   IsEnum,
@@ -19,13 +18,13 @@ export class CreateRequestDto {
   @IsNotEmpty()
   quantity: number;
 
-  @IsNotEmpty()
-  @IsEnum(itemCondition)
-  itemCondition: itemCondition;
+  // @IsNotEmpty()
+  // @IsEnum(itemCondition)
+  // itemCondition: itemCondition;
 
-  @IsNotEmpty()
-  @IsMongoId()
-  fromProject: Project;
+  // @IsNotEmpty()
+  // @IsMongoId()
+  // fromProject: Project;
 
   @IsNotEmpty()
   @IsMongoId()
