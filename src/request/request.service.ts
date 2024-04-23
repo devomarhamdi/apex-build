@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ValidationError } from '@nestjs/common';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,6 +6,8 @@ import { Model } from 'mongoose';
 import { Request, requestStatus } from 'src/schemas/request.schema';
 import { ItemDescriptionService } from 'src/item-description/item-description.service';
 import { ProjectsService } from 'src/projects/projects.service';
+import { validate } from 'class-validator';
+import { async } from 'rxjs';
 
 @Injectable()
 export class RequestService {
@@ -64,8 +66,7 @@ export class RequestService {
 
       return res;
     } catch (error) {
-      const message = error.message.split('failed: ')[1].split(', ');
-      return { message };
+      return error;
     }
   }
 

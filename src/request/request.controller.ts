@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseArrayPipe,
+} from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -14,7 +23,10 @@ export class RequestController {
   }
 
   @Post('requests')
-  createMany(@Body() createRequestDto: CreateRequestDto[]) {
+  createMany(
+    @Body(new ParseArrayPipe({ items: CreateRequestDto }))
+    createRequestDto: CreateRequestDto[],
+  ) {
     return this.requestService.createMany(createRequestDto);
   }
 

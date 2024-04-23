@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -16,6 +17,7 @@ export class CreateRequestDto {
   itemDescription: ItemDescription;
 
   @IsNotEmpty()
+  @IsNumber()
   quantity: number;
 
   // @IsNotEmpty()
