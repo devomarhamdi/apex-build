@@ -1,4 +1,4 @@
-import { IsDecimal, IsNotEmpty } from 'class-validator';
+import { IsDecimal, IsEmpty, IsNotEmpty } from 'class-validator';
 
 export class CreateItemDescriptionDto {
   @IsNotEmpty()
@@ -22,4 +22,7 @@ export class CreateItemDescriptionDto {
   @IsDecimal()
   @IsNotEmpty()
   rentingPrice: number;
+
+  @IsEmpty()
+  name: string;
 }

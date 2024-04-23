@@ -34,6 +34,21 @@ export class ItemDescription {
 
   @Prop()
   actQTY: number;
+
+  @Prop()
+  name: string;
 }
 
-export const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);
+// Define a pre-save hook to concatenate itemDescription and code into name
+const itemDescriptionSchema = SchemaFactory.createForClass(ItemDescription);
+
+itemDescriptionSchema.pre('save', function (next) {
+  // Check if itemDescription and code are present
+  if (this.itemDescription && this.code) {
+    // Concatenate itemDescription and code and store in name field
+    this.name = `${this.itemDescription} - ${this.code}`;
+  }
+  next();
+});
+
+export { itemDescriptionSchema };
