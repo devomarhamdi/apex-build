@@ -78,7 +78,8 @@ export class RequestService {
       .populate({
         path: 'toProject',
         select: ['name', '-_id'],
-      });
+      })
+      .sort('-createdAt');
 
     if (requests.length === 0) {
       return { message: 'There is no requests found' };

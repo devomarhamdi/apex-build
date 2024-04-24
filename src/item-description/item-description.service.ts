@@ -17,7 +17,7 @@ export class ItemDescriptionService {
   }
 
   async findAll() {
-    const items = await this.itemModel.find();
+    const items = await this.itemModel.find().sort('-createdAt');
 
     if (items.length === 0) {
       return { message: 'There is no items found' };

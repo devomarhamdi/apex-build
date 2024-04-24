@@ -317,7 +317,8 @@ export class TransferOrderService {
       .populate({
         path: 'toProject',
         select: ['name', '-_id'],
-      });
+      })
+      .sort('-createdAt');
 
     if (orders.length === 0) {
       return { message: 'There is no orders found' };

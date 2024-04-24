@@ -62,10 +62,13 @@ export class BalanceService {
   }
 
   async findAll() {
-    const balance = await this.balanceModel.find().populate({
-      path: 'itemDescription',
-      select: ['itemDescription', 'code', 'Weight', '-_id'],
-    });
+    const balance = await this.balanceModel
+      .find()
+      .populate({
+        path: 'itemDescription',
+        select: ['itemDescription', 'code', 'Weight', '-_id'],
+      })
+      .sort('-createdAt');
 
     if (balance.length === 0) {
       return { message: 'There is no balance found' };

@@ -7,16 +7,14 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class ProjectsService {
-  constructor(
-    @InjectModel(Project.name) private projectModel: Model<Project>,
-  ) {}
+  constructor(@InjectModel(Project.name) private projectModel: Model<Project>) {}
 
   async create(createProjectDto: CreateProjectDto) {
     return await this.projectModel.create(createProjectDto);
   }
 
   async findAll() {
-    const project = await this.projectModel.find();
+    const project = await this.projectModel.find().sort('-createdAt');
 
     if (project.length === 0) {
       return { message: 'There is no projects found' };
