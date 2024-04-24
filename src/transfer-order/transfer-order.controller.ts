@@ -10,7 +10,10 @@ export class TransferOrderController {
   constructor(private readonly transferOrderService: TransferOrderService) {}
 
   @Post()
-  create(@Body() createTransferOrderDto: CreateTransferOrderDto) {
+  create(
+    @Body()
+    createTransferOrderDto: CreateTransferOrderDto,
+  ) {
     return this.transferOrderService.create2(createTransferOrderDto);
   }
 

@@ -20,7 +20,6 @@ export class TransferOrder {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ItemDescription',
-    required: true,
   })
   itemDescription: ItemDescription;
 
@@ -36,20 +35,15 @@ export class TransferOrder {
   @Prop({ default: Date.now() })
   transferDate: Date;
 
-  // @Prop({ required: true })
-  // driverName: string;
-
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
-    required: true,
   })
   fromProject: Project;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
-    required: true,
   })
   toProject: Project;
 
@@ -67,7 +61,3 @@ export class TransferOrder {
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);
-
-// TransferOrderSchema.pre('save', function(next){
-
-// })
