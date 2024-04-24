@@ -91,11 +91,27 @@ export class BalanceService {
     return balance;
   }
 
-  async findItemBalance(id) {
-    const balance = await this.balanceModel.findOne({ itemDescription: id });
+  async findItemBalance(itemId, projectId) {
+    const balance = await this.balanceModel.findOne({
+      itemDescription: itemId,
+      project: projectId,
+    });
+    // const item = await this.itemModel.findById(itemId);
+    // const project = await this.projectModel.findById(projectId);
 
     if (!balance) {
-      throw new NotFoundException('No balance found');
+      // throw new NotFoundException(
+      //   `No balance found for this item: ${item.itemDescription} and this project: ${project.name}, Please create one first`,
+      // );
+      return await this.balanceModel.create({
+        itemDescription: itemId,
+        project: projectId,
+        good: 1000,
+        maintenance: 1000,
+        waste: 1000,
+        actQTY: 1000,
+        totQTY: 3000,
+      });
     }
 
     return balance;

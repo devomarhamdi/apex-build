@@ -19,14 +19,11 @@ export class TransferOrderService {
     private balanceService: BalanceService,
   ) {}
 
-  //The performence will not be very effiecnt
-  async create(createTransferOrderDto: CreateTransferOrderDto) {
+  async create2(createTransferOrderDto: CreateTransferOrderDto) {
     // Finding all the required fields
     const itemDescription = await this.itemDescriptionService.findOne(
       createTransferOrderDto.itemDescription.toString(),
     );
-
-    const balance = await this.balanceService.findItemBalance(itemDescription._id);
 
     const fromProject = await this.projectService.findOne(
       createTransferOrderDto.fromProject.toString(),
@@ -34,6 +31,16 @@ export class TransferOrderService {
 
     const toProject = await this.projectService.findOne(
       createTransferOrderDto.toProject.toString(),
+    );
+
+    const fromBalance = await this.balanceService.findItemBalance(
+      itemDescription._id,
+      fromProject._id,
+    );
+
+    const toBalance = await this.balanceService.findItemBalance(
+      itemDescription._id,
+      toProject._id,
     );
 
     // Handling the project name
@@ -63,145 +70,249 @@ export class TransferOrderService {
 
     // Handling the Balance
     if (createTransferOrderDto.itemCondition === 'good') {
-      if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
-        balance.good = balance.good - createTransferOrderDto.quantity;
-        balance.actQTY =
-          balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
-        balance.totQTY =
-          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+      if (fromBalance.good > 0 && createTransferOrderDto.quantity <= fromBalance.good) {
+        fromBalance.good -= createTransferOrderDto.quantity;
+        toBalance.good += createTransferOrderDto.quantity;
+
+        fromBalance.actQTY =
+          fromBalance.actQTY > 0
+            ? fromBalance.actQTY - createTransferOrderDto.quantity
+            : 0;
+        toBalance.actQTY += createTransferOrderDto.quantity;
+
+        fromBalance.totQTY =
+          fromBalance.totQTY > 0
+            ? fromBalance.totQTY - createTransferOrderDto.quantity
+            : 0;
+        toBalance.totQTY += createTransferOrderDto.quantity;
       } else {
         throw new BadRequestException(
-          `There is no enough good balance. The remaining is ${balance.good} items`,
+          `There is no enough good balance. The remaining is ${fromBalance.good} items`,
         );
       }
     } else if (createTransferOrderDto.itemCondition === 'maintenance') {
       if (
-        balance.maintenance > 0 &&
-        createTransferOrderDto.quantity <= balance.maintenance
+        fromBalance.maintenance > 0 &&
+        createTransferOrderDto.quantity <= fromBalance.maintenance
       ) {
-        balance.maintenance -= createTransferOrderDto.quantity;
-        balance.totQTY =
-          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+        fromBalance.maintenance -= createTransferOrderDto.quantity;
+        toBalance.maintenance += createTransferOrderDto.quantity;
+
+        fromBalance.totQTY =
+          fromBalance.totQTY > 0
+            ? fromBalance.totQTY - createTransferOrderDto.quantity
+            : 0;
+        toBalance.totQTY += createTransferOrderDto.quantity;
       } else {
         throw new BadRequestException(
-          `There is no enough maintenance balance. The remaining is ${balance.maintenance} items`,
+          `There is no enough maintenance balance. The remaining is ${fromBalance.maintenance} items`,
         );
       }
     } else {
-      if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
-        balance.waste -= createTransferOrderDto.quantity;
-        balance.totQTY =
-          balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+      if (fromBalance.waste > 0 && createTransferOrderDto.quantity <= fromBalance.waste) {
+        fromBalance.waste -= createTransferOrderDto.quantity;
+        toBalance.waste += createTransferOrderDto.quantity;
+
+        fromBalance.totQTY =
+          fromBalance.totQTY > 0
+            ? fromBalance.totQTY - createTransferOrderDto.quantity
+            : 0;
+        toBalance.totQTY += createTransferOrderDto.quantity;
       } else {
         throw new BadRequestException(
-          `There is no enough waste balance. The remaining is ${balance.waste} items`,
+          `There is no enough waste balance. The remaining is ${fromBalance.waste} items`,
         );
       }
     }
-    await balance.save();
+    await fromBalance.save();
+    await toBalance.save();
 
     return await this.transferModel.create(createTransferOrderDto);
   }
 
-  async createMany(createTransferOrderDtos: CreateTransferOrderDto[]) {
-    const orders = [];
-    try {
-      for (const createTransferOrderDto of createTransferOrderDtos) {
-        // Finding all the required fields
-        const itemDescription = await this.itemDescriptionService.findOne(
-          createTransferOrderDto.itemDescription.toString(),
-        );
+  //The performence will not be very effiecnt
+  // async create(createTransferOrderDto: CreateTransferOrderDto) {
+  //   // Finding all the required fields
+  //   const itemDescription = await this.itemDescriptionService.findOne(
+  //     createTransferOrderDto.itemDescription.toString(),
+  //   );
 
-        const balance = await this.balanceService.findItemBalance(itemDescription._id);
+  //   const balance = await this.balanceService.findItemBalance(itemDescription._id);
 
-        const fromProject = await this.projectService.findOne(
-          createTransferOrderDto.fromProject.toString(),
-        );
+  //   const fromProject = await this.projectService.findOne(
+  //     createTransferOrderDto.fromProject.toString(),
+  //   );
 
-        const toProject = await this.projectService.findOne(
-          createTransferOrderDto.toProject.toString(),
-        );
+  //   const toProject = await this.projectService.findOne(
+  //     createTransferOrderDto.toProject.toString(),
+  //   );
 
-        // Handling the project name
-        if (createTransferOrderDto.fromProject === createTransferOrderDto.toProject) {
-          throw new BadRequestException(
-            'The From project cannot be the same as to project',
-          );
-        }
-        // Increasing the order number
-        const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
-        const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
+  //   // Handling the project name
+  //   if (createTransferOrderDto.fromProject === createTransferOrderDto.toProject) {
+  //     throw new BadRequestException('The From project cannot be the same as to project');
+  //   }
 
-        createTransferOrderDto.orderNo = orderNo;
+  //   // Increaseing the order number
+  //   const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
+  //   const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
 
-        // Making the transferId
-        const fromProjectCode = fromProject.name.slice(0, 2);
-        const toProjectCode = toProject.name.slice(0, 2);
-        const transferDateObject = new Date(createTransferOrderDto.transferDate);
-        const month = transferDateObject.getMonth() + 1;
-        const year = transferDateObject.getFullYear();
+  //   createTransferOrderDto.orderNo = orderNo;
 
-        const transferId = `${fromProjectCode}-${toProjectCode}-${month}-${year}-${orderNo}`;
+  //   // Making the transferId
+  //   const fromProjectCode = fromProject.name.slice(0, 2);
+  //   const toProjectCode = toProject.name.slice(0, 2);
+  //   const transferDateObject = new Date(createTransferOrderDto.transferDate);
+  //   const month = transferDateObject.getMonth() + 1;
+  //   const year = transferDateObject.getFullYear();
 
-        createTransferOrderDto.transferId = transferId;
+  //   const transferId = `${fromProjectCode}-${toProjectCode}-${month}-${year}-${orderNo}`;
 
-        // Intializing the order status
-        createTransferOrderDto.status = orderStatus.processing;
+  //   createTransferOrderDto.transferId = transferId;
 
-        // Handling the Balance
-        if (createTransferOrderDto.itemCondition === 'good') {
-          if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
-            balance.good -= createTransferOrderDto.quantity;
-            balance.actQTY =
-              balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
-            balance.totQTY =
-              balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
-          } else {
-            throw new BadRequestException(
-              `There is not enough good balance. The remaining is ${balance.good} items`,
-            );
-          }
-        } else if (createTransferOrderDto.itemCondition === 'maintenance') {
-          if (
-            balance.maintenance > 0 &&
-            createTransferOrderDto.quantity <= balance.maintenance
-          ) {
-            balance.maintenance -= createTransferOrderDto.quantity;
-            balance.totQTY =
-              balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
-          } else {
-            throw new BadRequestException(
-              `There is not enough maintenance balance. The remaining is ${balance.maintenance} items`,
-            );
-          }
-        } else {
-          if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
-            balance.waste -= createTransferOrderDto.quantity;
-            balance.totQTY =
-              balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
-          } else {
-            throw new BadRequestException(
-              `There is not enough waste balance. The remaining is ${balance.waste} items`,
-            );
-          }
-        }
-        await balance.save();
+  //   // Intializing the order status
+  //   createTransferOrderDto.status = orderStatus.processing;
 
-        // Creating the order
-        orders.push(await this.transferModel.create(createTransferOrderDto));
-      }
+  //   // Handling the Balance
+  //   if (createTransferOrderDto.itemCondition === 'good') {
+  //     if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
+  //       balance.good = balance.good - createTransferOrderDto.quantity;
+  //       balance.actQTY =
+  //         balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
+  //       balance.totQTY =
+  //         balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //     } else {
+  //       throw new BadRequestException(
+  //         `There is no enough good balance. The remaining is ${balance.good} items`,
+  //       );
+  //     }
+  //   } else if (createTransferOrderDto.itemCondition === 'maintenance') {
+  //     if (
+  //       balance.maintenance > 0 &&
+  //       createTransferOrderDto.quantity <= balance.maintenance
+  //     ) {
+  //       balance.maintenance -= createTransferOrderDto.quantity;
+  //       balance.totQTY =
+  //         balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //     } else {
+  //       throw new BadRequestException(
+  //         `There is no enough maintenance balance. The remaining is ${balance.maintenance} items`,
+  //       );
+  //     }
+  //   } else {
+  //     if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
+  //       balance.waste -= createTransferOrderDto.quantity;
+  //       balance.totQTY =
+  //         balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //     } else {
+  //       throw new BadRequestException(
+  //         `There is no enough waste balance. The remaining is ${balance.waste} items`,
+  //       );
+  //     }
+  //   }
+  //   await balance.save();
 
-      const res = {
-        results: orders.length,
-        data: orders,
-      };
+  //   return await this.transferModel.create(createTransferOrderDto);
+  // }
 
-      return res;
-    } catch (error) {
-      // const message = error.message.split('failed: ')[1].split(', ');
-      return { error: error.message };
-    }
-  }
+  // async createMany(createTransferOrderDtos: CreateTransferOrderDto[]) {
+  //   const orders = [];
+  //   try {
+  //     for (const createTransferOrderDto of createTransferOrderDtos) {
+  //       // Finding all the required fields
+  //       const itemDescription = await this.itemDescriptionService.findOne(
+  //         createTransferOrderDto.itemDescription.toString(),
+  //       );
+
+  //       const balance = await this.balanceService.findItemBalance(itemDescription._id);
+
+  //       const fromProject = await this.projectService.findOne(
+  //         createTransferOrderDto.fromProject.toString(),
+  //       );
+
+  //       const toProject = await this.projectService.findOne(
+  //         createTransferOrderDto.toProject.toString(),
+  //       );
+
+  //       // Handling the project name
+  //       if (createTransferOrderDto.fromProject === createTransferOrderDto.toProject) {
+  //         throw new BadRequestException(
+  //           'The From project cannot be the same as to project',
+  //         );
+  //       }
+  //       // Increasing the order number
+  //       const latestOrder = await this.transferModel.findOne().sort('-orderNo').exec();
+  //       const orderNo = latestOrder ? latestOrder.orderNo + 1 : 1;
+
+  //       createTransferOrderDto.orderNo = orderNo;
+
+  //       // Making the transferId
+  //       const fromProjectCode = fromProject.name.slice(0, 2);
+  //       const toProjectCode = toProject.name.slice(0, 2);
+  //       const transferDateObject = new Date(createTransferOrderDto.transferDate);
+  //       const month = transferDateObject.getMonth() + 1;
+  //       const year = transferDateObject.getFullYear();
+
+  //       const transferId = `${fromProjectCode}-${toProjectCode}-${month}-${year}-${orderNo}`;
+
+  //       createTransferOrderDto.transferId = transferId;
+
+  //       // Intializing the order status
+  //       createTransferOrderDto.status = orderStatus.processing;
+
+  //       // Handling the Balance
+  //       if (createTransferOrderDto.itemCondition === 'good') {
+  //         if (balance.good > 0 && createTransferOrderDto.quantity <= balance.good) {
+  //           balance.good -= createTransferOrderDto.quantity;
+  //           balance.actQTY =
+  //             balance.actQTY > 0 ? balance.actQTY - createTransferOrderDto.quantity : 0;
+  //           balance.totQTY =
+  //             balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //         } else {
+  //           throw new BadRequestException(
+  //             `There is not enough good balance. The remaining is ${balance.good} items`,
+  //           );
+  //         }
+  //       } else if (createTransferOrderDto.itemCondition === 'maintenance') {
+  //         if (
+  //           balance.maintenance > 0 &&
+  //           createTransferOrderDto.quantity <= balance.maintenance
+  //         ) {
+  //           balance.maintenance -= createTransferOrderDto.quantity;
+  //           balance.totQTY =
+  //             balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //         } else {
+  //           throw new BadRequestException(
+  //             `There is not enough maintenance balance. The remaining is ${balance.maintenance} items`,
+  //           );
+  //         }
+  //       } else {
+  //         if (balance.waste > 0 && createTransferOrderDto.quantity <= balance.waste) {
+  //           balance.waste -= createTransferOrderDto.quantity;
+  //           balance.totQTY =
+  //             balance.totQTY > 0 ? balance.totQTY - createTransferOrderDto.quantity : 0;
+  //         } else {
+  //           throw new BadRequestException(
+  //             `There is not enough waste balance. The remaining is ${balance.waste} items`,
+  //           );
+  //         }
+  //       }
+  //       await balance.save();
+
+  //       // Creating the order
+  //       orders.push(await this.transferModel.create(createTransferOrderDto));
+  //     }
+
+  //     const res = {
+  //       results: orders.length,
+  //       data: orders,
+  //     };
+
+  //     return res;
+  //   } catch (error) {
+  //     // const message = error.message.split('failed: ')[1].split(', ');
+  //     return { error: error.message };
+  //   }
+  // }
 
   async findAll() {
     const orders = await this.transferModel
