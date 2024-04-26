@@ -73,7 +73,7 @@ export class RequestService {
       .find()
       .populate({
         path: 'itemDescription',
-        select: ['itemDescription', 'code', 'Weight', '-_id'],
+        select: ['itemDescription', 'code', 'Weight', 'name', '-_id'],
       })
       .populate({
         path: 'toProject',

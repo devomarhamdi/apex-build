@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BalanceService } from './balance.service';
 import { CreateBalanceDto } from './dto/create-balance.dto';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
@@ -24,6 +16,11 @@ export class BalanceController {
   @Get()
   findAll() {
     return this.balanceService.findAll();
+  }
+
+  @Get('projects/:id')
+  findAllByProject(@Param('id', MongoIdPipe) id: string) {
+    return this.balanceService.findAllByProject(id);
   }
 
   @Get(':id')

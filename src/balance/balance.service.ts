@@ -66,12 +66,33 @@ export class BalanceService {
       .find()
       .populate({
         path: 'itemDescription',
-        select: ['itemDescription', 'code', 'Weight', '-_id'],
+        select: ['itemDescription', 'code', 'Weight', 'name', '-_id'],
       })
       .sort('-createdAt');
 
     if (balance.length === 0) {
       return { message: 'There is no balance found' };
+    }
+
+    const response = {
+      results: balance.length,
+      data: balance,
+    };
+
+    return response;
+  }
+
+  async findAllByProject(projectId) {
+    const balance = await this.balanceModel
+      .find({ project: projectId })
+      .populate({
+        path: 'itemDescription',
+        select: ['itemDescription', 'code', 'Weight', 'name', '-_id'],
+      })
+      .sort('-createdAt');
+
+    if (balance.length === 0) {
+      return { message: 'There is no balance found for this project' };
     }
 
     const response = {

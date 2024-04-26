@@ -57,14 +57,6 @@ export class TransferOrderController {
     res.sendFile(fileId, { root: 'uploads' });
   }
 
-  // @Post('orders')
-  // createOrders(
-  //   @Body()
-  //   createTransferOrderDto: CreateTransferOrderDto[],
-  // ) {
-  //   return this.transferOrderService.createMany(createTransferOrderDto);
-  // }
-
   @Get()
   findAll() {
     return this.transferOrderService.findAll();
