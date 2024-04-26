@@ -11,8 +11,6 @@ import { config } from 'dotenv';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from 'env.validation';
 import { RequestModule } from './request/request.module';
-import { FileUploadInterceptor } from './file-upload-interceptor';
-import { MulterModule } from '@nestjs/platform-express';
 
 config();
 
@@ -35,9 +33,6 @@ config();
     AuthModule,
     UserModule,
     RequestModule,
-    MulterModule.registerAsync({
-      useClass: FileUploadInterceptor,
-    }),
   ],
   controllers: [AppController],
   providers: [],

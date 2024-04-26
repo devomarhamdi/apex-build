@@ -9,7 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-  ParseIntPipe,
+  Res,
 } from '@nestjs/common';
 import { TransferOrderService } from './transfer-order.service';
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
@@ -50,6 +50,11 @@ export class TransferOrderController {
     }
 
     return this.transferOrderService.create(createTransferOrderDto, image);
+  }
+
+  @Get('photos/:fileId')
+  async serveAvatar(@Param('fileId') fileId, @Res() res): Promise<any> {
+    res.sendFile(fileId, { root: 'uploads' });
   }
 
   // @Post('orders')

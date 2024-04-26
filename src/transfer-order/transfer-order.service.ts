@@ -25,7 +25,8 @@ export class TransferOrderService {
     const { transferDate, fromProject, toProject, orders } = createTransferOrderDto;
 
     // Process the image as needed (e.g., store in database, save to disk, etc.)
-    const imageUrl = 'https://apex-build.onrender.com/uploads/' + image.filename;
+    const imageUrl =
+      'https://apex-build.onrender.com/api/v1/transfer-order/photos/' + image.filename;
     // Iterate over each order
     for (const order of orders) {
       // Finding all the required fields for each order

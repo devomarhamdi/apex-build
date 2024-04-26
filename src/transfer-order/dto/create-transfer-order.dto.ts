@@ -7,7 +7,7 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
-  IsNumber,
+  // IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
