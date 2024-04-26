@@ -1,20 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { TransferOrderService } from './transfer-order.service';
 import { CreateTransferOrderDto } from './dto/create-transfer-order.dto';
 import { UpdateTransferOrderDto } from './dto/update-transfer-order.dto';
 import { MongoIdPipe } from 'src/pipes/mongo-id.pipe';
 import { UpdateIncomeDto } from './dto/update-income.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('transfer-order')
 export class TransferOrderController {
   constructor(private readonly transferOrderService: TransferOrderService) {}
 
   @Post()
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads', // Specify the directory where files will be stored
+        filename: (req, file, cb) => {
+          // Generate a unique filename
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
   create(
+    @UploadedFile() image: Express.Multer.File,
     @Body()
     createTransferOrderDto: CreateTransferOrderDto,
   ) {
-    return this.transferOrderService.create2(createTransferOrderDto);
+    if (!image) {
+      throw new BadRequestException('Image file is required');
+    }
+
+    return this.transferOrderService.create(createTransferOrderDto, image);
   }
 
   // @Post('orders')

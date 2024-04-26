@@ -36,7 +36,7 @@ export class CreateTransferOrderDto {
   orderNotes: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  // @IsNumber()
   transferNumber: number;
 
   @IsNotEmpty()
@@ -44,6 +44,8 @@ export class CreateTransferOrderDto {
   @ValidateNested({ each: true })
   @Type(() => Order)
   orders: Order[];
+
+  image: any;
 }
 
 export class Order {
@@ -52,7 +54,7 @@ export class Order {
   itemDescription: ItemDescription;
 
   @IsNotEmpty()
-  @IsNumber()
+  // @IsNumber()
   quantity: number;
 
   @IsNotEmpty()
@@ -62,4 +64,5 @@ export class Order {
   orderNo?: number;
   transferId?: string;
   status?: orderStatus;
+  image?: any;
 }

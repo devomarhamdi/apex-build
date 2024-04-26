@@ -58,6 +58,9 @@ export class TransferOrder {
 
   @Prop()
   transferNumber: number;
+
+  @Prop()
+  image: string;
 }
 
 export const TransferOrderSchema = SchemaFactory.createForClass(TransferOrder);

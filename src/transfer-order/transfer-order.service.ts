@@ -8,6 +8,7 @@ import { ItemDescriptionService } from 'src/item-description/item-description.se
 import { BalanceService } from 'src/balance/balance.service';
 import { ProjectsService } from 'src/projects/projects.service';
 import { UpdateIncomeDto } from './dto/update-income.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TransferOrderService {
@@ -17,11 +18,14 @@ export class TransferOrderService {
     private readonly itemDescriptionService: ItemDescriptionService,
     private readonly projectService: ProjectsService,
     private balanceService: BalanceService,
+    private configService: ConfigService,
   ) {}
 
-  async create2(createTransferOrderDto: CreateTransferOrderDto) {
+  async create(createTransferOrderDto: CreateTransferOrderDto, image: any) {
     const { transferDate, fromProject, toProject, orders } = createTransferOrderDto;
 
+    // Process the image as needed (e.g., store in database, save to disk, etc.)
+    const imageUrl = 'https://apex-build.onrender.com/uploads/' + image.filename;
     // Iterate over each order
     for (const order of orders) {
       // Finding all the required fields for each order
@@ -71,11 +75,11 @@ export class TransferOrderService {
         if (fromBalance.good > 0 && order.quantity <= fromBalance.good) {
           // Update balances
           fromBalance.good -= order.quantity;
-          toBalance.good += order.quantity;
+          toBalance.good += +order.quantity;
           fromBalance.actQTY = Math.max(fromBalance.actQTY - order.quantity, 0);
-          toBalance.actQTY += order.quantity;
+          toBalance.actQTY += +order.quantity;
           fromBalance.totQTY = Math.max(fromBalance.totQTY - order.quantity, 0);
-          toBalance.totQTY += order.quantity;
+          toBalance.totQTY += +order.quantity;
         } else {
           throw new BadRequestException(
             `There is not enough good balance. The remaining is ${fromBalance.good} items`,
@@ -86,9 +90,9 @@ export class TransferOrderService {
         if (fromBalance.maintenance > 0 && order.quantity <= fromBalance.maintenance) {
           // Update balances
           fromBalance.maintenance -= order.quantity;
-          toBalance.maintenance += order.quantity;
+          toBalance.maintenance += +order.quantity;
           fromBalance.totQTY = Math.max(fromBalance.totQTY - order.quantity, 0);
-          toBalance.totQTY += order.quantity;
+          toBalance.totQTY += +order.quantity;
         } else {
           throw new BadRequestException(
             `There is not enough maintenance balance. The remaining is ${fromBalance.maintenance} items`,
@@ -99,15 +103,18 @@ export class TransferOrderService {
         if (fromBalance.waste > 0 && order.quantity <= fromBalance.waste) {
           // Update balances
           fromBalance.waste -= order.quantity;
-          toBalance.waste += order.quantity;
+          toBalance.waste += +order.quantity;
           fromBalance.totQTY = Math.max(fromBalance.totQTY - order.quantity, 0);
-          toBalance.totQTY += order.quantity;
+          toBalance.totQTY += +order.quantity;
         } else {
           throw new BadRequestException(
             `There is not enough waste balance. The remaining is ${fromBalance.waste} items`,
           );
         }
       }
+
+      // Add image URL to order data
+      order.image = imageUrl;
 
       // Save balance changes for each order
       await fromBalance.save();
