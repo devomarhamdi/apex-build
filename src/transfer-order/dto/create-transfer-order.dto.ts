@@ -40,7 +40,6 @@ export class CreateTransferOrderDto {
   transferNumber: number;
 
   @IsNotEmpty()
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => Order)
   orders: Order[];
