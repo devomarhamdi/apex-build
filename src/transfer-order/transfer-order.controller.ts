@@ -40,15 +40,15 @@ export class TransferOrderController {
     }),
   )
   create(
-    @UploadedFile() image: Express.Multer.File,
+    // @UploadedFile() image: Express.Multer.File,
     @Body()
     createTransferOrderDto: CreateTransferOrderDto,
   ) {
-    if (!image) {
-      throw new BadRequestException('Image file is required');
-    }
+    // if (!image) {
+    //   throw new BadRequestException('Image file is required');
+    // }
 
-    return this.transferOrderService.create(createTransferOrderDto, image);
+    return this.transferOrderService.create(createTransferOrderDto);
   }
 
   @Get()
