@@ -65,4 +65,6 @@ export class Order {
   transferId?: string;
   status?: orderStatus;
   image?: any;
+  fromProject: Project;
+  toProject: Project;
 }

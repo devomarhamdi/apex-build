@@ -115,6 +115,8 @@ export class TransferOrderService {
 
       // Add image URL to order data
       order.image = imageUrl;
+      order.fromProject = fromProject;
+      order.toProject = toProject;
 
       // Save balance changes for each order
       await fromBalance.save();
