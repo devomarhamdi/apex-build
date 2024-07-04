@@ -21,11 +21,11 @@ export class TransferOrderService {
     private configService: ConfigService,
   ) {}
 
-  async create(createTransferOrderDto: CreateTransferOrderDto) {
+  async create(createTransferOrderDto: CreateTransferOrderDto, image: any) {
     const { transferDate, fromProject, toProject, orders } = createTransferOrderDto;
 
     // Process the image as needed (e.g., store in database, save to disk, etc.)
-    // const imageUrl = image.filename;
+    const imageUrl = image.filename;
     // Iterate over each order
     for (const order of orders) {
       // Finding all the required fields for each order
@@ -114,7 +114,7 @@ export class TransferOrderService {
       }
 
       // Add image URL to order data
-      order.image = 'imageUrl';
+      order.image = imageUrl;
 
       // Save balance changes for each order
       await fromBalance.save();
