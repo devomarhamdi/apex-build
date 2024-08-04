@@ -24,31 +24,31 @@ export class TransferOrderController {
   constructor(private readonly transferOrderService: TransferOrderService) {}
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads', // Specify the directory where files will be stored
-        filename: (req, file, cb) => {
-          // Generate a unique filename
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
+  // @UseInterceptors(
+  //   FileInterceptor('image', {
+  //     storage: diskStorage({
+  //       destination: './uploads', // Specify the directory where files will be stored
+  //       filename: (req, file, cb) => {
+  //         // Generate a unique filename
+  //         const randomName = Array(32)
+  //           .fill(null)
+  //           .map(() => Math.round(Math.random() * 16).toString(16))
+  //           .join('');
+  //         return cb(null, `${randomName}${extname(file.originalname)}`);
+  //       },
+  //     }),
+  //   }),
+  // )
   create(
-    @UploadedFile() image: Express.Multer.File,
+    // @UploadedFile() image: Express.Multer.File,
     @Body()
     createTransferOrderDto: CreateTransferOrderDto,
   ) {
-    if (!image) {
-      throw new BadRequestException('Image file is required');
-    }
+    // if (!image) {
+    //   throw new BadRequestException('Image file is required');
+    // }
 
-    return this.transferOrderService.create(createTransferOrderDto, image);
+    return this.transferOrderService.create(createTransferOrderDto);
   }
 
   @Get()
